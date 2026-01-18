@@ -13,7 +13,6 @@ const ownersRouter = require("./routes/ownersRouter.js");
 const usersRouter = require("./routes/usersRouter.js");
 const productsRouter = require("./routes/productsRouter.js");
 
-
 const app = express();
 
 app.set("view engine" , "ejs");

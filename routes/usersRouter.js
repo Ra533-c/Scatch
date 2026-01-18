@@ -6,15 +6,16 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { registerUser } = require("../controllers/authController.js");
 const { loginUser } = require("../controllers/authController.js");
-
+const {logoutUser} = require("../controllers/authController.js")
 
 router.get("/", (req, res) => {
-    res.send("Hello")
+    res.send("Hey it's  working...")
 });
 
 router.post("/register", registerUser);
 
 router.post("/login", loginUser)
 
+router.get("/logout" ,logoutUser);
 
 module.exports = router;

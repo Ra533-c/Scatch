@@ -2,35 +2,33 @@ const express = require("express");
 const router = express.Router();
 const ownerModel = require("../models/owner-model");
 
-console.log("process.env.NODE_ENV --->", process.env.NODE_ENV);  //we set it using ($env:NODE_ENV="development") in terminal
+// 1. Form dikhane ke liye GET route
+router.get("/create", (req, res) => {
+    res.render("owner-login");
+});
 
-
-if (process.env.NODE_ENV === "development") {
-    router.post("/create", async (req, res) => {
+// 2. Owner create karne ke liye POST route
+if(process.env.NODE_ENV === "development"){
+    router.post("/create", async function(req, res){
         let owners = await ownerModel.find();
-        if (owners.length > 0) {
-            return res
-                .status(503)
-                .send("You don't have permission to create a new owner !")
+        if(owners.length > 0) {
+            await ownerModel.deleteMany({}); // Purane owners delete kar do
         }
 
-        let {fullname ,email , password} = req.body;
-        if(!fullname || !email || !password){
-            return res.status(503).send("fill all nesseccery fields!")
-        }
+        let {fullname, email, password} = req.body; // Spelling fix: fullName -> fullname
         let createdOwner = await ownerModel.create({
             fullname,
             email,
-            password,
-        })
-        res.status(201).send(createdOwner)
+            password
+        });
+        res.redirect("/owners/admin"); // Admin page par bhejo
     });
 }
 
-router.get("/", (req, res) => {
-    res.send("Hello")
+router.get("/admin", function(req, res){
+    let success = req.flash("success");
+    res.render("createproducts", { success });
 });
-
 
 
 module.exports = router;
