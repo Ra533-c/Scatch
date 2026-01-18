@@ -37,10 +37,6 @@ app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
 
-app.get("/",(req,res)=>{
-    res.send("We are working...");
-})
-
 // app.use("*" ,(req,res)=>{
 //     res.send("Page Not Found!❌")
 // });
